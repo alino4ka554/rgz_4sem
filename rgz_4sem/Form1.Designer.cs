@@ -37,15 +37,20 @@ namespace rgz_4sem
             this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.renameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.makeFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.makeFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.listView1 = new System.Windows.Forms.ListView();
             this.header = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.header2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.panel1 = new System.Windows.Forms.Panel();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             this.listView2 = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -53,9 +58,11 @@ namespace rgz_4sem
             this.открытьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.удалитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.добавитьВСжатуюZIPпапкуToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.helpProvider1 = new System.Windows.Forms.HelpProvider();
             this.переименоватьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.makeFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.helpProvider1 = new System.Windows.Forms.HelpProvider();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -77,6 +84,7 @@ namespace rgz_4sem
             this.makeFolderToolStripMenuItem,
             this.makeFileToolStripMenuItem,
             this.deleteToolStripMenuItem,
+            this.settingsToolStripMenuItem,
             this.exitToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 460);
             this.menuStrip1.Name = "menuStrip1";
@@ -102,6 +110,7 @@ namespace rgz_4sem
             this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
             this.copyToolStripMenuItem.Size = new System.Drawing.Size(64, 27);
             this.copyToolStripMenuItem.Text = "Copy";
+            this.copyToolStripMenuItem.Click += new System.EventHandler(this.Copy_Click);
             // 
             // renameToolStripMenuItem
             // 
@@ -116,6 +125,13 @@ namespace rgz_4sem
             this.makeFolderToolStripMenuItem.Size = new System.Drawing.Size(115, 27);
             this.makeFolderToolStripMenuItem.Text = "MakeFolder";
             this.makeFolderToolStripMenuItem.Click += new System.EventHandler(this.makeFolder_Click);
+            // 
+            // makeFileToolStripMenuItem
+            // 
+            this.makeFileToolStripMenuItem.Name = "makeFileToolStripMenuItem";
+            this.makeFileToolStripMenuItem.Size = new System.Drawing.Size(93, 27);
+            this.makeFileToolStripMenuItem.Text = "MakeFile";
+            this.makeFileToolStripMenuItem.Click += new System.EventHandler(this.makeFile_Click);
             // 
             // deleteToolStripMenuItem
             // 
@@ -132,6 +148,8 @@ namespace rgz_4sem
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.label2);
+            this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.panel2);
             this.groupBox1.Controls.Add(this.listView1);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
@@ -140,10 +158,31 @@ namespace rgz_4sem
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label2.Location = new System.Drawing.Point(199, 10);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(53, 20);
+            this.label2.TabIndex = 8;
+            this.label2.Text = "Name";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.BackColor = System.Drawing.Color.Transparent;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label1.Location = new System.Drawing.Point(0, 10);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(53, 20);
+            this.label1.TabIndex = 7;
+            this.label1.Text = "Name";
+            // 
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.Color.DeepPink;
-            this.panel2.Location = new System.Drawing.Point(0, 376);
+            this.panel2.Location = new System.Drawing.Point(1, 376);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(405, 24);
             this.panel2.TabIndex = 6;
@@ -163,6 +202,8 @@ namespace rgz_4sem
             this.listView1.TabIndex = 3;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.List;
+            this.listView1.SelectedIndexChanged += new System.EventHandler(this.List1Item_Changed);
+            this.listView1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.ListView1_MouseDoubleClick);
             // 
             // header
             // 
@@ -175,20 +216,43 @@ namespace rgz_4sem
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.DeepPink;
-            this.panel1.Location = new System.Drawing.Point(2, 378);
+            this.panel1.Location = new System.Drawing.Point(1, 376);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(405, 24);
             this.panel1.TabIndex = 5;
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Controls.Add(this.panel1);
+            this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Controls.Add(this.listView2);
             this.groupBox2.Location = new System.Drawing.Point(431, 12);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(413, 408);
             this.groupBox2.TabIndex = 6;
             this.groupBox2.TabStop = false;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label3.Location = new System.Drawing.Point(199, 10);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(53, 20);
+            this.label3.TabIndex = 10;
+            this.label3.Text = "Name";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.BackColor = System.Drawing.Color.Transparent;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label4.Location = new System.Drawing.Point(0, 10);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(53, 20);
+            this.label4.TabIndex = 9;
+            this.label4.Text = "Name";
             // 
             // listView2
             // 
@@ -205,6 +269,7 @@ namespace rgz_4sem
             this.listView2.TabIndex = 3;
             this.listView2.UseCompatibleStateImageBehavior = false;
             this.listView2.View = System.Windows.Forms.View.List;
+            this.listView2.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.ListView2_MouseDoubleClick);
             // 
             // columnHeader1
             // 
@@ -253,12 +318,27 @@ namespace rgz_4sem
             this.переименоватьToolStripMenuItem.Text = "Переименовать";
             this.переименоватьToolStripMenuItem.Click += new System.EventHandler(this.reName_Click);
             // 
-            // makeFileToolStripMenuItem
+            // label5
             // 
-            this.makeFileToolStripMenuItem.Name = "makeFileToolStripMenuItem";
-            this.makeFileToolStripMenuItem.Size = new System.Drawing.Size(93, 27);
-            this.makeFileToolStripMenuItem.Text = "MakeFile";
-            this.makeFileToolStripMenuItem.Click += new System.EventHandler(this.makeFile_Click);
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(13, 435);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(0, 16);
+            this.label5.TabIndex = 8;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(702, 435);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(0, 16);
+            this.label7.TabIndex = 9;
+            // 
+            // settingsToolStripMenuItem
+            // 
+            this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(85, 27);
+            this.settingsToolStripMenuItem.Text = "Settings";
             // 
             // Form1
             // 
@@ -266,18 +346,23 @@ namespace rgz_4sem
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.HotPink;
             this.ClientSize = new System.Drawing.Size(855, 491);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.groupBox1);
             this.ForeColor = System.Drawing.SystemColors.Control;
             this.KeyPreview = true;
             this.MainMenuStrip = this.menuStrip1;
+            this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "Form1";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -310,6 +395,13 @@ namespace rgz_4sem
         private HelpProvider helpProvider1;
         private ToolStripMenuItem переименоватьToolStripMenuItem;
         private ToolStripMenuItem makeFileToolStripMenuItem;
+        private Label label2;
+        private Label label1;
+        private Label label3;
+        private Label label4;
+        private Label label5;
+        private Label label7;
+        private ToolStripMenuItem settingsToolStripMenuItem;
     }
 }
 

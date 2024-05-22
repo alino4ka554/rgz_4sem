@@ -86,13 +86,24 @@ namespace rgz_4sem
         public void Delete(string path)
         {
             string name = Path.Combine(way.currentPath, path);
-            if (File.Exists(name))
+            try
             {
-                File.Delete(name);
+                if (File.Exists(name))
+                {
+                    File.Delete(name);
+                    DirectoryInfo info = Directory.GetParent(name);
+                    this.files = info.GetFiles();
+                }
+                else if (Directory.Exists(name))
+                {
+                    Directory.Delete(name, true);
+                    DirectoryInfo info = Directory.GetParent(name);
+                    this.directories = info.GetDirectories();
+                }
             }
-            else if (Directory.Exists(name))
+            catch
             {
-                Directory.Delete(name, true);
+                throw new Exception("Не удалось удалить");
             }
         }
 
@@ -100,7 +111,6 @@ namespace rgz_4sem
         {
             if (Directory.Exists(name))
             {
-
                 string reName = Path.Combine(way.currentPath, newName);
                 if (!Directory.Exists(reName))
                 {
@@ -108,6 +118,7 @@ namespace rgz_4sem
                     DirectoryInfo info = Directory.GetParent(reName);
                     this.directories = info.GetDirectories();
                 }
+                else throw new Exception("Каталог с таким именем уже существует!");
             }
             else if (File.Exists(name))
             {
@@ -118,6 +129,7 @@ namespace rgz_4sem
                     DirectoryInfo info = Directory.GetParent(reName);
                     this.files = info.GetFiles();
                 }
+                else throw new Exception("Файл с таким именем уже существует!");
             }
         }
 
@@ -128,6 +140,7 @@ namespace rgz_4sem
                 Directory.CreateDirectory(name);
                 directories.Append(Directory.CreateDirectory(name));
             }
+            else throw new Exception("Каталог с таким именем уже существует!");
         }
 
         public void MakeFile(string name)
@@ -139,7 +152,39 @@ namespace rgz_4sem
                 DirectoryInfo info = Directory.GetParent(name);
                 this.files = info.GetFiles();
             }
+            else throw new Exception("Файл с таким именем уже существует!");
 
+        }
+
+        public void Copy(string name, string place)
+        {
+            if (Directory.Exists(name))
+            {
+                CopyDir(name, place);
+                DirectoryInfo info = Directory.GetParent(name);
+                this.directories = info.GetDirectories();
+            }
+            else if (File.Exists(name))
+            {
+                File.Copy(name, place);
+                DirectoryInfo info = Directory.GetParent(name);
+                this.files = info.GetFiles();
+            }
+            else throw new Exception("Не удалось скопировать!");
+        }
+
+        public void CopyDir(string name, string place)
+        {
+            Directory.CreateDirectory(place);
+            foreach (string s1 in Directory.GetFiles(place))
+            {
+                string s2 = place + "\\" + Path.GetFileName(s1);
+                File.Copy(s1, s2);
+            }
+            foreach (string s in Directory.GetDirectories(place))
+            {
+                CopyDir(s, place + "\\" + Path.GetFileName(s));
+            }
         }
 
         public bool Access(DirectoryInfo dir)
