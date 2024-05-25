@@ -93,24 +93,17 @@ namespace rgz_4sem
         public void Delete(string path) //удаление 
         {
             string name = Path.Combine(way.currentPath, path);
-            try
+            if (File.Exists(name))
             {
-                if (File.Exists(name))
-                {
-                    File.Delete(name);
-                    DirectoryInfo info = Directory.GetParent(name);
-                    this.files = info.GetFiles();
-                }
-                else if (Directory.Exists(name))
-                {
-                    Directory.Delete(name, true);
-                    DirectoryInfo info = Directory.GetParent(name);
-                    this.directories = info.GetDirectories();
-                }
+                File.Delete(name);
+                DirectoryInfo info = Directory.GetParent(name);
+                this.files = info.GetFiles();
             }
-            catch
+            else if (Directory.Exists(name))
             {
-                throw new Exception("Не удалось удалить");
+                Directory.Delete(name, true);
+                DirectoryInfo info = Directory.GetParent(name);
+                this.directories = info.GetDirectories();
             }
         }
 
@@ -185,30 +178,45 @@ namespace rgz_4sem
             {
                 CopyDir(name, place);
                 DirectoryInfo info = Directory.GetParent(name);
-                this.directories = info.GetDirectories();
+                this.directories = info?.GetDirectories();
             }
             else if (File.Exists(name))
             {
-                File.Copy(name, place);
+                string destFile = Path.Combine(place, Path.GetFileName(name));
+                File.Copy(name, destFile, true); 
                 DirectoryInfo info = Directory.GetParent(name);
-                this.files = info.GetFiles();
+                this.files = info?.GetFiles();
             }
-            else throw new Exception("Не удалось скопировать!");
+            else
+            {
+                throw new Exception("Не удалось скопировать!");
+            }
         }
 
-        public void CopyDir(string name, string place) //копирование папки
+        public void CopyDir(string sourceDir, string targetDir) //копирование папки
         {
-            Directory.CreateDirectory(place);
-            foreach (string s1 in Directory.GetFiles(name))
+            try
             {
-                string s2 = place + "\\" + Path.GetFileName(s1);
-                File.Copy(s1, s2);
+                Directory.CreateDirectory(targetDir);
+
+                foreach (string file in Directory.GetFiles(sourceDir))
+                {
+                    string destFile = Path.Combine(targetDir, Path.GetFileName(file));
+                    File.Copy(file, destFile, true); 
+                }
+
+                foreach (string directory in Directory.GetDirectories(sourceDir))
+                {
+                    string destDirectory = Path.Combine(targetDir, Path.GetFileName(directory));
+                    CopyDir(directory, destDirectory);
+                }
             }
-            foreach (string s in Directory.GetDirectories(name))
+            catch (Exception ex)
             {
-                CopyDir(s, place + "\\" + Path.GetFileName(s));
+                Console.WriteLine($"Ошибка при копировании директории {sourceDir} в {targetDir}: {ex.Message}");
             }
         }
+
 
         public bool Access(DirectoryInfo dir) //проверка на доступность каталога
         {
