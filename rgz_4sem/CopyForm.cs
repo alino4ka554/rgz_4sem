@@ -34,6 +34,7 @@ namespace rgz_4sem
 
         private void button2_Click(object sender, EventArgs e)
         {
+            Place = "";
             this.Close();
         }
     }

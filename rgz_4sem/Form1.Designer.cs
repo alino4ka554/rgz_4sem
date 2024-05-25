@@ -31,6 +31,7 @@ namespace rgz_4sem
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -39,6 +40,7 @@ namespace rgz_4sem
             this.makeFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.makeFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -62,7 +64,7 @@ namespace rgz_4sem
             this.helpProvider1 = new System.Windows.Forms.HelpProvider();
             this.label5 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.label6 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -97,6 +99,7 @@ namespace rgz_4sem
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
             this.toolStripMenuItem1.Size = new System.Drawing.Size(60, 27);
             this.toolStripMenuItem1.Text = "Help";
+            this.toolStripMenuItem1.Click += new System.EventHandler(this.Help_CLick);
             // 
             // viewToolStripMenuItem
             // 
@@ -140,11 +143,19 @@ namespace rgz_4sem
             this.deleteToolStripMenuItem.Text = "Delete";
             this.deleteToolStripMenuItem.Click += new System.EventHandler(this.Delete_Click);
             // 
+            // settingsToolStripMenuItem
+            // 
+            this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(85, 27);
+            this.settingsToolStripMenuItem.Text = "Settings";
+            this.settingsToolStripMenuItem.Click += new System.EventHandler(this.Settings_Click);
+            // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             this.exitToolStripMenuItem.Size = new System.Drawing.Size(52, 27);
             this.exitToolStripMenuItem.Text = "Exit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.Exit_CLick);
             // 
             // groupBox1
             // 
@@ -182,7 +193,7 @@ namespace rgz_4sem
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.Color.DeepPink;
-            this.panel2.Location = new System.Drawing.Point(1, 376);
+            this.panel2.Location = new System.Drawing.Point(3, 376);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(405, 24);
             this.panel2.TabIndex = 6;
@@ -190,18 +201,20 @@ namespace rgz_4sem
             // listView1
             // 
             this.listView1.BackColor = System.Drawing.Color.DeepPink;
+            this.listView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.header,
             this.header2});
             this.listView1.ForeColor = System.Drawing.SystemColors.Window;
             this.listView1.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
             this.listView1.HideSelection = false;
-            this.listView1.Location = new System.Drawing.Point(0, 32);
+            this.listView1.Location = new System.Drawing.Point(3, 32);
             this.listView1.Name = "listView1";
             this.listView1.Size = new System.Drawing.Size(407, 370);
             this.listView1.TabIndex = 3;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.List;
+            this.listView1.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.ListView1_ItemDrag);
             this.listView1.SelectedIndexChanged += new System.EventHandler(this.List1Item_Changed);
             this.listView1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.ListView1_MouseDoubleClick);
             // 
@@ -216,7 +229,7 @@ namespace rgz_4sem
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.DeepPink;
-            this.panel1.Location = new System.Drawing.Point(1, 376);
+            this.panel1.Location = new System.Drawing.Point(4, 376);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(405, 24);
             this.panel1.TabIndex = 5;
@@ -256,19 +269,23 @@ namespace rgz_4sem
             // 
             // listView2
             // 
+            this.listView2.AllowDrop = true;
             this.listView2.BackColor = System.Drawing.Color.DeepPink;
+            this.listView2.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.listView2.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1,
             this.columnHeader2});
             this.listView2.ForeColor = System.Drawing.SystemColors.Window;
             this.listView2.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
             this.listView2.HideSelection = false;
-            this.listView2.Location = new System.Drawing.Point(0, 32);
+            this.listView2.Location = new System.Drawing.Point(3, 32);
             this.listView2.Name = "listView2";
             this.listView2.Size = new System.Drawing.Size(407, 370);
             this.listView2.TabIndex = 3;
             this.listView2.UseCompatibleStateImageBehavior = false;
             this.listView2.View = System.Windows.Forms.View.List;
+            this.listView2.DragDrop += new System.Windows.Forms.DragEventHandler(this.ListView2_DragDrop);
+            this.listView2.DragEnter += new System.Windows.Forms.DragEventHandler(this.ListView2_DragEnter);
             this.listView2.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.ListView2_MouseDoubleClick);
             // 
             // columnHeader1
@@ -318,6 +335,10 @@ namespace rgz_4sem
             this.переименоватьToolStripMenuItem.Text = "Переименовать";
             this.переименоватьToolStripMenuItem.Click += new System.EventHandler(this.reName_Click);
             // 
+            // helpProvider1
+            // 
+            this.helpProvider1.HelpNamespace = "C:\\Users\\Admin\\Documents\\Справка.html";
+            // 
             // label5
             // 
             this.label5.AutoSize = true;
@@ -334,11 +355,13 @@ namespace rgz_4sem
             this.label7.Size = new System.Drawing.Size(0, 16);
             this.label7.TabIndex = 9;
             // 
-            // settingsToolStripMenuItem
+            // label6
             // 
-            this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(85, 27);
-            this.settingsToolStripMenuItem.Text = "Settings";
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(502, 435);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(0, 16);
+            this.label6.TabIndex = 10;
             // 
             // Form1
             // 
@@ -346,17 +369,20 @@ namespace rgz_4sem
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.HotPink;
             this.ClientSize = new System.Drawing.Size(855, 491);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.groupBox1);
             this.ForeColor = System.Drawing.SystemColors.Control;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "FileManager";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.groupBox1.ResumeLayout(false);
@@ -392,7 +418,6 @@ namespace rgz_4sem
         private ToolStripMenuItem открытьToolStripMenuItem;
         private ToolStripMenuItem удалитьToolStripMenuItem;
         private ToolStripMenuItem добавитьВСжатуюZIPпапкуToolStripMenuItem;
-        private HelpProvider helpProvider1;
         private ToolStripMenuItem переименоватьToolStripMenuItem;
         private ToolStripMenuItem makeFileToolStripMenuItem;
         private Label label2;
@@ -402,6 +427,8 @@ namespace rgz_4sem
         private Label label5;
         private Label label7;
         private ToolStripMenuItem settingsToolStripMenuItem;
+        private HelpProvider helpProvider1;
+        private Label label6;
     }
 }
 

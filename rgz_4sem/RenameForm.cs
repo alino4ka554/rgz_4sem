@@ -16,6 +16,7 @@ namespace rgz_4sem
         public RenameForm()
         {
             InitializeComponent();
+            Name = "";
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -25,7 +26,8 @@ namespace rgz_4sem
                 this.Name = textBox1.Text;
                 this.Close();
             }
-            else MessageBox.Show("Введите название!");
+            else 
+                MessageBox.Show("Введите название!");
         }
 
         private void button2_Click(object sender, EventArgs e)

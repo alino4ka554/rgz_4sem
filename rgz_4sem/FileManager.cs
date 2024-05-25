@@ -76,10 +76,16 @@ namespace rgz_4sem
                         archive.CreateEntryFromFile(name, Path.GetFileName(name));
                     }
                 }
+                DirectoryInfo info = Directory.GetParent(name);
+                this.directories = info.GetDirectories();
+                this.files = info.GetFiles();
             }
             else if (Directory.Exists(name))
             {
                 ZipFile.CreateFromDirectory(name, zipFile);
+                DirectoryInfo info = Directory.GetParent(name);
+                this.directories = info.GetDirectories();
+                this.files = info.GetFiles();
             }
         }
 
@@ -156,6 +162,22 @@ namespace rgz_4sem
 
         }
 
+        public void Move(string name, string place)
+        {
+            if(Directory.Exists(name))
+            {
+                Directory.Move(name, place);
+                DirectoryInfo info = Directory.GetParent(name);
+                this.directories = info.GetDirectories();
+            }
+            else if (File.Exists(name))
+            {
+                File.Move(name, place);
+                DirectoryInfo info = Directory.GetParent(name);
+                this.files = info.GetFiles();
+            }
+        }
+
         public void Copy(string name, string place)
         {
             if (Directory.Exists(name))
@@ -176,12 +198,12 @@ namespace rgz_4sem
         public void CopyDir(string name, string place)
         {
             Directory.CreateDirectory(place);
-            foreach (string s1 in Directory.GetFiles(place))
+            foreach (string s1 in Directory.GetFiles(name))
             {
                 string s2 = place + "\\" + Path.GetFileName(s1);
                 File.Copy(s1, s2);
             }
-            foreach (string s in Directory.GetDirectories(place))
+            foreach (string s in Directory.GetDirectories(name))
             {
                 CopyDir(s, place + "\\" + Path.GetFileName(s));
             }

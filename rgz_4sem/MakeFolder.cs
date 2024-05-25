@@ -17,6 +17,7 @@ namespace rgz_4sem
         public MakeFolder()
         {
             InitializeComponent();
+            Name = "";
         }
 
         private void button1_Click(object sender, EventArgs e)
