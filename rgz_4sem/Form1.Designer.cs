@@ -337,7 +337,7 @@ namespace rgz_4sem
             // 
             // helpProvider1
             // 
-            this.helpProvider1.HelpNamespace = "C:\\Users\\Admin\\source\\repos\\rgz_4sem\\rgz_4sem\\bin\\Debug\\Справка.html";
+            this.helpProvider1.HelpNamespace = "C:\\Users\\Admin\\source\\repos\\rgz_4sem\\rgz_4sem\\Properties\\Справка.html";
             // 
             // label5
             // 
