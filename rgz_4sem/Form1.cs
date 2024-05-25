@@ -74,20 +74,27 @@ namespace rgz_4sem
 
         private void ListView2_DragDrop(object sender, DragEventArgs e)
         {
-            string itemToDrag = (string)e.Data.GetData(DataFormats.Text);
-            if(itemToDrag != null && itemToDrag != " . .")
+            try
             {
-                string name = Path.Combine(fileManager.way.currentPath, itemToDrag);
-                string place = Path.Combine(fileManagerForMove.way.currentPath, itemToDrag);
+                string itemToDrag = (string)e.Data.GetData(DataFormats.Text);
+                if (itemToDrag != null && itemToDrag != " . .")
+                {
+                    string name = Path.Combine(fileManager.way.currentPath, itemToDrag);
+                    string place = Path.Combine(fileManagerForMove.way.currentPath, itemToDrag);
 
-                fileManager.Move(name, place);
+                    fileManager.Move(name, place);
 
-                DirectoryInfo info = Directory.GetParent(place);
-                fileManagerForMove.directories = info.GetDirectories();
-                fileManagerForMove.files = info.GetFiles();
+                    DirectoryInfo info = Directory.GetParent(place);
+                    fileManagerForMove.directories = info.GetDirectories();
+                    fileManagerForMove.files = info.GetFiles();
 
-                RefreshList1View();
-                RefreshList2View();
+                    RefreshList1View();
+                    RefreshList2View();
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
         }
 
@@ -279,7 +286,6 @@ namespace rgz_4sem
                 NavigationForSecondList();
             }
         }
-
 
         private void OpenItem_Click(object sender, EventArgs e) //открыть файл/каталог из контекстного меню
         {
@@ -521,7 +527,7 @@ namespace rgz_4sem
                         string place = Path.Combine(fileManagerForMove.way.currentPath, "(Копия)" + listView1.SelectedItems[0].Text);
                         CopyForm copyForm = new CopyForm(name, place);
                         copyForm.ShowDialog();
-                        if (copyForm.Place != "")
+                        if (copyForm.Place != "" && copyForm.Name != "" && copyForm.Answer == true)
                         {
                             fileManager.Copy(name, copyForm.Place);
 

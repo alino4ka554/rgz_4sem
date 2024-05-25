@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System.IO;
+using System.Windows.Forms;
 
 namespace rgz_4sem
 {
@@ -337,7 +338,7 @@ namespace rgz_4sem
             // 
             // helpProvider1
             // 
-            this.helpProvider1.HelpNamespace = "C:\\Users\\Admin\\source\\repos\\rgz_4sem\\rgz_4sem\\Properties\\Справка.html";
+            this.helpProvider1.HelpNamespace = "Справка.html";
             // 
             // label5
             // 

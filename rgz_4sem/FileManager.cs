@@ -178,7 +178,7 @@ namespace rgz_4sem
             {
                 CopyDir(name, place);
                 DirectoryInfo info = Directory.GetParent(name);
-                this.directories = info?.GetDirectories();
+                this.directories = info.GetDirectories();
             }
             else if (File.Exists(name))
             {
