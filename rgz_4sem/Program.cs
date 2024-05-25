@@ -14,15 +14,15 @@ namespace rgz_4sem
         [STAThread]
         static void Main()
         {
-            //try
+            try
             {
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
                 Application.Run(new Form1());
             }
-            //catch (Exception ex)
+            catch (Exception ex)
             {
-                //MessageBox.Show($"{ex.Message}");
+                MessageBox.Show($"{ex.Message}");
                 
             }
         }

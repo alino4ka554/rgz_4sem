@@ -12,7 +12,8 @@ namespace rgz_4sem
 {
     public partial class MakeFolder : Form
     {
-        public string Name { get; set; }
+        //Класс для формы создания файла/каталога
+        public string Name { get; set; } //имя
 
         public MakeFolder()
         {
@@ -27,7 +28,7 @@ namespace rgz_4sem
                 this.Name = textBox1.Text;
                 this.Close();
             }
-            else MessageBox.Show("Введите название каталога!");
+            else MessageBox.Show("Введите название!");
         }
 
         private void button2_Click(object sender, EventArgs e)

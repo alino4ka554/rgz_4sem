@@ -20,13 +20,14 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.Status;
 
 namespace rgz_4sem
 {
+    //Класс для приложения файлового менеджера
     public partial class Form1 : Form
     {
-        public FileManager fileManager;
+        public FileManager fileManager; //экземпляр файлового списка
 
-        public FileManager fileManagerForMove;
+        public FileManager fileManagerForMove; //экземпляр файлового списка для перемещения и копирования
 
-        public Color topic;
+        public Color topic; //тема приложения
         public Form1()
         {
             InitializeComponent();
@@ -38,7 +39,7 @@ namespace rgz_4sem
             KeyDown += Keyboard;
         }
 
-        private void InitializeListView()
+        private void InitializeListView() //заполнение списков
         {
             RefreshList1View();
             RefreshList2View();
@@ -49,6 +50,7 @@ namespace rgz_4sem
 
         }
 
+        //перемещение элемента из первого списка во второй
         private void ListView1_ItemDrag(object sender, ItemDragEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
@@ -61,18 +63,6 @@ namespace rgz_4sem
         private void ListView2_DragEnter(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.Text))
-            {
-                e.Effect = DragDropEffects.Copy;
-            }
-            else
-            {
-                e.Effect = DragDropEffects.None;
-            }
-        }
-
-        private void ListView2_DragOver(object sender, DragEventArgs e)
-        {
-            if (e.Data.GetDataPresent(typeof(System.Windows.Forms.ListViewItem)))
             {
                 e.Effect = DragDropEffects.Copy;
             }
@@ -101,8 +91,7 @@ namespace rgz_4sem
             }
         }
 
-
-        public void List1Item_Changed(object sender, EventArgs e)
+        public void List1Item_Changed(object sender, EventArgs e) //обновление пути, времени изменения и создания из первого списка
         {
             label5.Text = Path.Combine(this.fileManager.way.currentPath, listView1.FocusedItem.Text);
             label6.Text = Directory.GetLastWriteTime(label5.Text).ToString();
@@ -110,7 +99,7 @@ namespace rgz_4sem
 
         }
 
-        private void ListView1_MouseClick(object sender, MouseEventArgs e)
+        private void ListView1_MouseClick(object sender, MouseEventArgs e) //открытие контекстного меню
         {
             if (e.Button == MouseButtons.Right && listView1.FocusedItem != null && listView1.FocusedItem.Bounds.Contains(e.Location))
             {
@@ -118,80 +107,7 @@ namespace rgz_4sem
             }
         }
 
-        private void OpenItem_Click(object sender, EventArgs e)
-        {
-            if (listView1.SelectedItems.Count > 0)
-            {
-                string name = Path.Combine(this.fileManager.way.currentPath, listView1.SelectedItems[0].Text);
-                Process.Start(name);
-            }
-        }
-
-        private void DeleteItem_Click(object sender, EventArgs e)
-        {
-            if (listView1.SelectedItems.Count > 0)
-            {
-                this.fileManager.Delete(listView1.SelectedItems[0].Text);
-
-                if (fileManager.way.currentPath == fileManagerForMove.way.currentPath)
-                {
-                    DirectoryInfo info = Directory.GetParent(Path.Combine(fileManagerForMove.way.currentPath, listView1.SelectedItems[0].Text));
-                    fileManagerForMove.directories = info.GetDirectories();
-                    fileManagerForMove.files = info.GetFiles();
-                    RefreshList2View();
-                }
-
-                RefreshList1View();
-            }
-            
-        }
-
-        private void zipItem_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (listView1.SelectedItems.Count > 0)
-                {
-                    this.fileManager.ZipFolder(listView1.SelectedItems[0].Text);
-
-                    if (fileManager.way.currentPath == fileManagerForMove.way.currentPath)
-                    {
-                        DirectoryInfo info = Directory.GetParent(Path.Combine(fileManagerForMove.way.currentPath, listView1.SelectedItems[0].Text));
-                        fileManagerForMove.directories = info.GetDirectories();
-                        fileManagerForMove.files = info.GetFiles();
-                        RefreshList2View();
-                    }
-                }
-            }
-            catch
-            {
-                throw new Exception("Недостаточно прав для создания сжатой ZIP-папки.");
-            }
-            RefreshList1View();
-        }
-
-        private void reName_Click(object sender, EventArgs e)
-        {
-            if (listView1.SelectedItems.Count > 0)
-            {
-                string name = Path.Combine(fileManager.way.currentPath, listView1.SelectedItems[0].Text);
-                RenameForm renameForm = new RenameForm();
-                renameForm.ShowDialog();
-                fileManager.Rename(name, renameForm.Name);
-
-                if (fileManager.way.currentPath == fileManagerForMove.way.currentPath)
-                {
-                    DirectoryInfo info = Directory.GetParent(name);
-                    fileManagerForMove.directories = info.GetDirectories();
-                    fileManagerForMove.files = info.GetFiles();
-                    RefreshList2View();
-                }
-
-                RefreshList1View();
-            }
-        }
-
-        private void Keyboard(object sender, KeyEventArgs e)
+        private void Keyboard(object sender, KeyEventArgs e) //обработчик нажатия клавиш
         {
             if (e.KeyCode == Keys.Enter && (listView1.SelectedItems.Count > 0 || listView2.SelectedItems.Count > 0))
             {
@@ -199,7 +115,7 @@ namespace rgz_4sem
             }
         }
 
-        private void HandleEnterKey()
+        private void HandleEnterKey() //перемещение по клавиатуре
         {
             if (listView1.Focused == true)
             {
@@ -211,7 +127,7 @@ namespace rgz_4sem
             }
         }
 
-        private void NavigateToPreviousFolder(int number)
+        private void NavigateToPreviousFolder(int number) //перемещение назад
         {
             switch(number)
             {
@@ -231,7 +147,7 @@ namespace rgz_4sem
             
         }
 
-        private void NavigateToNextFolder(int number, string folderName)
+        private void NavigateToNextFolder(int number, string folderName) //перемещение вперед
         {
             switch (number)
             {
@@ -250,7 +166,7 @@ namespace rgz_4sem
             }
         }
 
-        private void RefreshList1View()
+        private void RefreshList1View() //обновление первого списка
         {
             listView1.Items.Clear();
 
@@ -277,7 +193,7 @@ namespace rgz_4sem
             }
         }
 
-        private void RefreshList2View()
+        private void RefreshList2View() //обновление второго списка
         {
             listView2.Items.Clear();
 
@@ -304,7 +220,7 @@ namespace rgz_4sem
             }
         }
 
-        public void NavigationForFirstList()
+        public void NavigationForFirstList() //навигация для первого списка
         {
             string str = Path.Combine(this.fileManager.way.currentPath, listView1.SelectedItems[0].Text);
             DirectoryInfo dir = new DirectoryInfo(str);
@@ -326,7 +242,7 @@ namespace rgz_4sem
             }
         }
 
-        public void NavigationForSecondList()
+        public void NavigationForSecondList() //навигация для второго списка
         {
             string str = Path.Combine(this.fileManagerForMove.way.currentPath, listView2.SelectedItems[0].Text);
             DirectoryInfo dir = new DirectoryInfo(str);
@@ -348,7 +264,7 @@ namespace rgz_4sem
             }
         }
 
-        private void ListView1_MouseDoubleClick(object sender, MouseEventArgs e)
+        private void ListView1_MouseDoubleClick(object sender, MouseEventArgs e) //перемещение с помощью мыши для первого списка
         {
             if (listView1.SelectedItems.Count > 0)
             {
@@ -356,7 +272,7 @@ namespace rgz_4sem
             }
         }
 
-        private void ListView2_MouseDoubleClick(object sender, MouseEventArgs e)
+        private void ListView2_MouseDoubleClick(object sender, MouseEventArgs e) //перемещение с помощью мыши для второго списка
         {
             if (listView2.SelectedItems.Count > 0)
             {
@@ -364,53 +280,34 @@ namespace rgz_4sem
             }
         }
 
-        private void View_Click(object sender, EventArgs e)
-        {
-            if (sender == viewToolStripMenuItem && listView1.SelectedItems.Count > 0 && listView1.SelectedItems[0] != listView1.Items[0])
-            {
-                string str = Path.Combine(this.fileManager.way.currentPath, listView1.SelectedItems[0].Text);
-                Process.Start(str);
-            }
-        }
 
-        private void makeFolder_Click(object sender, EventArgs e)
+        private void OpenItem_Click(object sender, EventArgs e) //открыть файл/каталог из контекстного меню
         {
-            if(sender == makeFolderToolStripMenuItem)
+            try
             {
-                MakeFolder makeFolder = new MakeFolder();
-                makeFolder.ShowDialog();
-                string name = Path.Combine(fileManager.way.currentPath, makeFolder.Name);
-                if (makeFolder.Name != "")
+                if (listView1.SelectedItems.Count > 0)
                 {
-                    fileManager.MakeFolder(name);
-                    NavigateToNextFolder(1, name);
-
-                    if (fileManager.way.previousPath == fileManagerForMove.way.currentPath)
-                    {
-                        DirectoryInfo info = Directory.GetParent(name);
-                        fileManagerForMove.directories = info.GetDirectories();
-                        fileManagerForMove.files = info.GetFiles();
-                        RefreshList2View();
-                    }
+                    string name = Path.Combine(this.fileManager.way.currentPath, listView1.SelectedItems[0].Text);
+                    Process.Start(name);
                 }
             }
-        }
-        
-
-        private void makeFile_Click(object sender, EventArgs e)
-        {
-            if (sender == makeFileToolStripMenuItem)
+            catch (Exception ex)
             {
-                MakeFolder makeFolder = new MakeFolder();
-                makeFolder.ShowDialog();
-                string name = Path.Combine(fileManager.way.currentPath, makeFolder.Name);
-                if (makeFolder.Name != "")
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void DeleteItem_Click(object sender, EventArgs e) //удалить файл/каталог из контекстного меню
+        {
+            try
+            {
+                if (listView1.SelectedItems.Count > 0)
                 {
-                    fileManager.MakeFile(name);
+                    this.fileManager.Delete(listView1.SelectedItems[0].Text);
 
                     if (fileManager.way.currentPath == fileManagerForMove.way.currentPath)
                     {
-                        DirectoryInfo info = Directory.GetParent(name);
+                        DirectoryInfo info = Directory.GetParent(Path.Combine(fileManagerForMove.way.currentPath, listView1.SelectedItems[0].Text));
                         fileManagerForMove.directories = info.GetDirectories();
                         fileManagerForMove.files = info.GetFiles();
                         RefreshList2View();
@@ -419,36 +316,45 @@ namespace rgz_4sem
                     RefreshList1View();
                 }
             }
-        }
-
-        private void Delete_Click(object sender, EventArgs e)
-        {
-            if (sender == deleteToolStripMenuItem && listView1.SelectedItems.Count > 0 && listView1.SelectedItems[0] != listView1.Items[0])
+            catch (Exception ex)
             {
-                this.fileManager.Delete(listView1.SelectedItems[0].Text);
-
-                if (fileManager.way.currentPath == fileManagerForMove.way.currentPath)
-                {
-                    DirectoryInfo info = Directory.GetParent(Path.Combine(fileManagerForMove.way.currentPath, listView1.SelectedItems[0].Text));
-                    fileManagerForMove.directories = info.GetDirectories();
-                    fileManagerForMove.files = info.GetFiles();
-                    RefreshList2View();
-                }
-
-                RefreshList1View();
-
+                MessageBox.Show(ex.Message);
             }
         }
 
-        private void Rename_Click(object sender, EventArgs e)
+        private void zipItem_Click(object sender, EventArgs e) //добавить в сжатую зип-папку
         {
-            if (sender == renameToolStripMenuItem && listView1.SelectedItems.Count > 0 && listView1.SelectedItems[0] != listView1.Items[0])
+            try
             {
-                string name = Path.Combine(fileManager.way.currentPath, listView1.SelectedItems[0].Text);
-                RenameForm renameForm = new RenameForm();
-                renameForm.ShowDialog();
-                if (renameForm.Name != "")
+                if (listView1.SelectedItems.Count > 0)
                 {
+                    this.fileManager.ZipFolder(listView1.SelectedItems[0].Text);
+
+                    if (fileManager.way.currentPath == fileManagerForMove.way.currentPath)
+                    {
+                        DirectoryInfo info = Directory.GetParent(Path.Combine(fileManagerForMove.way.currentPath, listView1.SelectedItems[0].Text));
+                        fileManagerForMove.directories = info.GetDirectories();
+                        fileManagerForMove.files = info.GetFiles();
+                        RefreshList2View();
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            RefreshList1View();
+        }
+
+        private void reName_Click(object sender, EventArgs e) //переименовать из контекстного меню
+        {
+            try
+            {
+                if (listView1.SelectedItems.Count > 0)
+                {
+                    string name = Path.Combine(fileManager.way.currentPath, listView1.SelectedItems[0].Text);
+                    RenameForm renameForm = new RenameForm();
+                    renameForm.ShowDialog();
                     fileManager.Rename(name, renameForm.Name);
 
                     if (fileManager.way.currentPath == fileManagerForMove.way.currentPath)
@@ -462,34 +368,180 @@ namespace rgz_4sem
                     RefreshList1View();
                 }
             }
-        }
-
-        private void Copy_Click(object sender, EventArgs e)
-        {
-            if (sender == copyToolStripMenuItem && listView1.SelectedItems.Count > 0)
+            catch (Exception ex)
             {
-                if (listView1.SelectedItems[0] != listView1.Items[0])
-                {
-                    string name = Path.Combine(fileManager.way.currentPath, listView1.SelectedItems[0].Text);
-                    string place = Path.Combine(fileManagerForMove.way.currentPath, "(Копия)" + listView1.SelectedItems[0].Text);
-                    CopyForm copyForm = new CopyForm(name, place);
-                    copyForm.ShowDialog();
-                    if (copyForm.Place != "")
-                    {
-                        fileManager.Copy(name, copyForm.Place);
-
-                        DirectoryInfo info = Directory.GetParent(place);
-                        fileManagerForMove.directories = info.GetDirectories();
-                        fileManagerForMove.files = info.GetFiles();
-
-                        RefreshList1View();
-                        RefreshList2View();
-                    }
-                }
+                MessageBox.Show(ex.Message);
             }
         }
 
-        public void Settings_Click(object sender, EventArgs e)
+
+        private void View_Click(object sender, EventArgs e) //кнопка просмотр из меню
+        {
+            try
+            {
+                if (sender == viewToolStripMenuItem && listView1.SelectedItems.Count > 0 && listView1.SelectedItems[0] != listView1.Items[0])
+                {
+                    string str = Path.Combine(this.fileManager.way.currentPath, listView1.SelectedItems[0].Text);
+                    Process.Start(str);
+                }
+            } 
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void makeFolder_Click(object sender, EventArgs e) //создание папки
+        {
+            try
+            {
+                if (sender == makeFolderToolStripMenuItem)
+                {
+                    MakeFolder makeFolder = new MakeFolder();
+                    makeFolder.ShowDialog();
+                    string name = Path.Combine(fileManager.way.currentPath, makeFolder.Name);
+                    if (makeFolder.Name != "")
+                    {
+                        fileManager.MakeFolder(name);
+                        NavigateToNextFolder(1, name);
+
+                        if (fileManager.way.previousPath == fileManagerForMove.way.currentPath)
+                        {
+                            DirectoryInfo info = Directory.GetParent(name);
+                            fileManagerForMove.directories = info.GetDirectories();
+                            fileManagerForMove.files = info.GetFiles();
+                            RefreshList2View();
+                        }
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+        
+
+        private void makeFile_Click(object sender, EventArgs e) //создание файла
+        {
+            try
+            {
+                if (sender == makeFileToolStripMenuItem)
+                {
+                    MakeFolder makeFolder = new MakeFolder();
+                    makeFolder.ShowDialog();
+                    string name = Path.Combine(fileManager.way.currentPath, makeFolder.Name);
+                    if (makeFolder.Name != "")
+                    {
+                        fileManager.MakeFile(name);
+
+                        if (fileManager.way.currentPath == fileManagerForMove.way.currentPath)
+                        {
+                            DirectoryInfo info = Directory.GetParent(name);
+                            fileManagerForMove.directories = info.GetDirectories();
+                            fileManagerForMove.files = info.GetFiles();
+                            RefreshList2View();
+                        }
+
+                        RefreshList1View();
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void Delete_Click(object sender, EventArgs e) //удаление по кнопке из меню
+        {
+            try
+            {
+                if (sender == deleteToolStripMenuItem && listView1.SelectedItems.Count > 0 && listView1.SelectedItems[0] != listView1.Items[0])
+                {
+                    this.fileManager.Delete(listView1.SelectedItems[0].Text);
+
+                    if (fileManager.way.currentPath == fileManagerForMove.way.currentPath)
+                    {
+                        DirectoryInfo info = Directory.GetParent(Path.Combine(fileManagerForMove.way.currentPath, listView1.SelectedItems[0].Text));
+                        fileManagerForMove.directories = info.GetDirectories();
+                        fileManagerForMove.files = info.GetFiles();
+                        RefreshList2View();
+                    }
+                    RefreshList1View();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void Rename_Click(object sender, EventArgs e) //переименование файла/каталога
+        {
+            try
+            {
+                if (sender == renameToolStripMenuItem && listView1.SelectedItems.Count > 0 && listView1.SelectedItems[0] != listView1.Items[0])
+                {
+                    string name = Path.Combine(fileManager.way.currentPath, listView1.SelectedItems[0].Text);
+                    RenameForm renameForm = new RenameForm();
+                    renameForm.ShowDialog();
+                    if (renameForm.Name != "")
+                    {
+                        fileManager.Rename(name, renameForm.Name);
+
+                        if (fileManager.way.currentPath == fileManagerForMove.way.currentPath)
+                        {
+                            DirectoryInfo info = Directory.GetParent(name);
+                            fileManagerForMove.directories = info.GetDirectories();
+                            fileManagerForMove.files = info.GetFiles();
+                            RefreshList2View();
+                        }
+
+                        RefreshList1View();
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void Copy_Click(object sender, EventArgs e) //копирование файла/каталога
+        {
+            try
+            {
+                if (sender == copyToolStripMenuItem && listView1.SelectedItems.Count > 0)
+                {
+                    if (listView1.SelectedItems[0] != listView1.Items[0])
+                    {
+                        string name = Path.Combine(fileManager.way.currentPath, listView1.SelectedItems[0].Text);
+                        string place = Path.Combine(fileManagerForMove.way.currentPath, "(Копия)" + listView1.SelectedItems[0].Text);
+                        CopyForm copyForm = new CopyForm(name, place);
+                        copyForm.ShowDialog();
+                        if (copyForm.Place != "")
+                        {
+                            fileManager.Copy(name, copyForm.Place);
+
+                            DirectoryInfo info = Directory.GetParent(place);
+                            fileManagerForMove.directories = info.GetDirectories();
+                            fileManagerForMove.files = info.GetFiles();
+
+                            RefreshList1View();
+                            RefreshList2View();
+                        }
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        public void Settings_Click(object sender, EventArgs e) //настройки для выбора темы приложения
         {
             Settings settings = new Settings();
             settings.color = this.topic;
@@ -522,12 +574,12 @@ namespace rgz_4sem
             }
         }
 
-        private void Help_CLick(object sender, EventArgs e)
+        private void Help_CLick(object sender, EventArgs e) //открытие справки
         {
             Process.Start(helpProvider1.HelpNamespace);
         }
 
-        private void Exit_CLick(object sender, EventArgs e)
+        private void Exit_CLick(object sender, EventArgs e) //выход 
         {
             this.Close();
         }

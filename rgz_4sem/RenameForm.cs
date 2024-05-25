@@ -12,6 +12,7 @@ namespace rgz_4sem
 {
     public partial class RenameForm : Form
     {
+        //Класс для формы переименования 
         public string Name { get; set; }
         public RenameForm()
         {

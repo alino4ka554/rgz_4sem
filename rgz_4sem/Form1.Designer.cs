@@ -193,9 +193,9 @@ namespace rgz_4sem
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.Color.DeepPink;
-            this.panel2.Location = new System.Drawing.Point(3, 376);
+            this.panel2.Location = new System.Drawing.Point(3, 378);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(405, 24);
+            this.panel2.Size = new System.Drawing.Size(407, 24);
             this.panel2.TabIndex = 6;
             // 
             // listView1
@@ -220,18 +220,18 @@ namespace rgz_4sem
             // 
             // header
             // 
-            this.header.Width = 150;
+            this.header.Width = 155;
             // 
             // header2
             // 
-            this.header2.Width = 150;
+            this.header2.Width = 155;
             // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.DeepPink;
-            this.panel1.Location = new System.Drawing.Point(4, 376);
+            this.panel1.Location = new System.Drawing.Point(3, 378);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(405, 24);
+            this.panel1.Size = new System.Drawing.Size(407, 24);
             this.panel1.TabIndex = 5;
             // 
             // groupBox2
@@ -290,11 +290,11 @@ namespace rgz_4sem
             // 
             // columnHeader1
             // 
-            this.columnHeader1.Width = 150;
+            this.columnHeader1.Width = 155;
             // 
             // columnHeader2
             // 
-            this.columnHeader2.Width = 150;
+            this.columnHeader2.Width = 155;
             // 
             // contextMenuStrip1
             // 

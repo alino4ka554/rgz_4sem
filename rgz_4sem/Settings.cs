@@ -14,6 +14,8 @@ namespace rgz_4sem
     {
         Pink, Black
     }
+
+    //Класс для формы выбора темы приложения
     public partial class Settings : Form
     {
         public Color color { get; set; }

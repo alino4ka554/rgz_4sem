@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace rgz_4sem
 {
+    //Класс для хранения пути файлового менеджера
     public class Way
     {
-        public string previousPath { get; set; }
-        public string currentPath { get; set; }
+        public string previousPath { get; set; } //предыдущий путь
+        public string currentPath { get; set; } //нынешний путь
 
     }
 }

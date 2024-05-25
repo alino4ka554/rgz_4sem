@@ -10,10 +10,11 @@ using System.Windows.Forms;
 
 namespace rgz_4sem
 {
+    //Класс для подтверждения копирования
     public partial class CopyForm : Form
     {
-        public string Name { get; set; }
-        public string Place { get; set; }
+        public string Name { get; set; } //название копируемого объекта
+        public string Place { get; set; } //место для копирования
         public CopyForm(string name, string place)
         {
             InitializeComponent();

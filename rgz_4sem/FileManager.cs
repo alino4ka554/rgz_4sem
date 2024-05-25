@@ -12,12 +12,13 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace rgz_4sem
 {
+    //Класс для работы с файловым менеджером
     public class FileManager
     {
-        public DriveInfo[] drives;
-        public DirectoryInfo[] directories;
-        public FileInfo[] files;
-        public Way way;
+        public DriveInfo[] drives; //диски
+        public DirectoryInfo[] directories; //каталоги
+        public FileInfo[] files; //файлы
+        public Way way; //путь 
 
         public FileManager()
         {
@@ -31,7 +32,7 @@ namespace rgz_4sem
         }
 
 
-        public void NextFolder(string selectedItem)
+        public void NextFolder(string selectedItem) //перемещение вперед
         {
             this.way.previousPath = this.way.currentPath;
             this.way.currentPath = Path.Combine(this.way.previousPath, selectedItem);
@@ -49,7 +50,7 @@ namespace rgz_4sem
             }
         }
 
-        public void PreviousFolder()
+        public void PreviousFolder() //перемещение назад
         {
             if (this.way.currentPath != Path.Combine(drives[0].Name))
             {
@@ -62,7 +63,7 @@ namespace rgz_4sem
             }
         }
 
-        public void ZipFolder(string path)
+        public void ZipFolder(string path) //создание зип-папки
         {
             string name = Path.Combine(way.currentPath, path);
             string zipFile = Path.Combine(way.currentPath, Path.GetFileNameWithoutExtension(name) + ".zip");
@@ -89,7 +90,7 @@ namespace rgz_4sem
             }
         }
 
-        public void Delete(string path)
+        public void Delete(string path) //удаление 
         {
             string name = Path.Combine(way.currentPath, path);
             try
@@ -113,7 +114,7 @@ namespace rgz_4sem
             }
         }
 
-        public void Rename(string name, string newName)
+        public void Rename(string name, string newName) //переименование
         {
             if (Directory.Exists(name))
             {
@@ -139,7 +140,7 @@ namespace rgz_4sem
             }
         }
 
-        public void MakeFolder(string name)
+        public void MakeFolder(string name) //создание папки
         {
             if (!Directory.Exists(name))
             {
@@ -149,7 +150,7 @@ namespace rgz_4sem
             else throw new Exception("Каталог с таким именем уже существует!");
         }
 
-        public void MakeFile(string name)
+        public void MakeFile(string name) //создание файла
         {
             if (Path.GetExtension(name) == "") throw new Exception("Введите расширение файла!");
             else if (!File.Exists(name))
@@ -162,7 +163,7 @@ namespace rgz_4sem
 
         }
 
-        public void Move(string name, string place)
+        public void Move(string name, string place) //перемещение 
         {
             if(Directory.Exists(name))
             {
@@ -178,7 +179,7 @@ namespace rgz_4sem
             }
         }
 
-        public void Copy(string name, string place)
+        public void Copy(string name, string place) //копирование
         {
             if (Directory.Exists(name))
             {
@@ -195,7 +196,7 @@ namespace rgz_4sem
             else throw new Exception("Не удалось скопировать!");
         }
 
-        public void CopyDir(string name, string place)
+        public void CopyDir(string name, string place) //копирование папки
         {
             Directory.CreateDirectory(place);
             foreach (string s1 in Directory.GetFiles(name))
@@ -209,7 +210,7 @@ namespace rgz_4sem
             }
         }
 
-        public bool Access(DirectoryInfo dir)
+        public bool Access(DirectoryInfo dir) //проверка на доступность каталога
         {
             bool status = true;
             try
