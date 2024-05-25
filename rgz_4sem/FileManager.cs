@@ -182,10 +182,9 @@ namespace rgz_4sem
             }
             else if (File.Exists(name))
             {
-                string destFile = Path.Combine(place, Path.GetFileName(name));
-                File.Copy(name, destFile, true); 
+                File.Copy(name, place);
                 DirectoryInfo info = Directory.GetParent(name);
-                this.files = info?.GetFiles();
+                this.files = info.GetFiles();
             }
             else
             {
