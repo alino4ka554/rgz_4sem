@@ -336,10 +336,6 @@ namespace rgz_4sem
             this.переименоватьToolStripMenuItem.Text = "Переименовать";
             this.переименоватьToolStripMenuItem.Click += new System.EventHandler(this.reName_Click);
             // 
-            // helpProvider1
-            // 
-            this.helpProvider1.HelpNamespace = "Справка.html";
-            // 
             // label5
             // 
             this.label5.AutoSize = true;
@@ -383,6 +379,7 @@ namespace rgz_4sem
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Form1";
+            this.helpProvider1.SetShowHelp(this, true);
             this.Text = "FileManager";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
