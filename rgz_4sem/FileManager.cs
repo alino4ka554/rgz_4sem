@@ -109,27 +109,30 @@ namespace rgz_4sem
 
         public void Rename(string name, string newName) //переименование
         {
-            if (Directory.Exists(name))
+            if (newName != "")
             {
-                string reName = Path.Combine(way.currentPath, newName);
-                if (!Directory.Exists(reName))
+                if (Directory.Exists(name))
                 {
-                    Directory.Move(name, reName);
-                    DirectoryInfo info = Directory.GetParent(reName);
-                    this.directories = info.GetDirectories();
+                    string reName = Path.Combine(way.currentPath, newName);
+                    if (!Directory.Exists(reName))
+                    {
+                        Directory.Move(name, reName);
+                        DirectoryInfo info = Directory.GetParent(reName);
+                        this.directories = info.GetDirectories();
+                    }
+                    else throw new Exception("Каталог с таким именем уже существует!");
                 }
-                else throw new Exception("Каталог с таким именем уже существует!");
-            }
-            else if (File.Exists(name))
-            {
-                string reName = Path.Combine(way.currentPath, newName + Path.GetExtension(name));
-                if (!File.Exists(reName))
+                else if (File.Exists(name))
                 {
-                    File.Move(name, reName);
-                    DirectoryInfo info = Directory.GetParent(reName);
-                    this.files = info.GetFiles();
+                    string reName = Path.Combine(way.currentPath, newName + Path.GetExtension(name));
+                    if (!File.Exists(reName))
+                    {
+                        File.Move(name, reName);
+                        DirectoryInfo info = Directory.GetParent(reName);
+                        this.files = info.GetFiles();
+                    }
+                    else throw new Exception("Файл с таким именем уже существует!");
                 }
-                else throw new Exception("Файл с таким именем уже существует!");
             }
         }
 
