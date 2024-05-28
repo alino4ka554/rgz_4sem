@@ -88,7 +88,7 @@
             // button1
             // 
             this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button1.Location = new System.Drawing.Point(126, 142);
+            this.button1.Location = new System.Drawing.Point(154, 142);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(107, 39);
             this.button1.TabIndex = 5;
@@ -132,6 +132,8 @@
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.label1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "Settings";
             this.Text = "Настройки приложения";
             this.panel1.ResumeLayout(false);

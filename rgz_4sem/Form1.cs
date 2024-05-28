@@ -27,9 +27,6 @@ namespace rgz_4sem
 
         public FileManager fileManagerForMove; //экземпляр файлового списка для перемещения и копирования
 
-        static string str = Directory.GetCurrentDirectory().Replace("\\bin\\Debug", "Справка.html");
-        string nameHelpPath = Path.Combine(str, "\\Properties\\Справка.html");
-
         public Color topic; //тема приложения
         public Form1()
         {
